@@ -1,0 +1,155 @@
+Project Title: Online Education Platform Analysis
+
+Project Overview:
+Analyze student engagement, course completion, and     learning patterns on an EdTech platform.
+
+SQL Tasks:
+1.	Retrieve total enrollments per course
+2.	Identify students with highest course completion rates
+3.	Calculate average time spent per student Rank
+4.	courses by student engagement
+5.	Identify students who drop out before completion
+6.	Count assignments submitted versus missed per course
+7.	Identify courses with highest satisfaction ratings
+
+
+⦁	Task 1 : Retrieve total enrollments per course
+
+mysql> SELECT
+    ->     Course_Category,
+    ->     COUNT(Student_ID) AS total_enrollments
+    -> FROM online_education_dataset_final
+    -> GROUP BY Course_Category;
++-----------------+-------------------+
+| Course_Category | total_enrollments |
++-----------------+-------------------+
+| Programming     |              1633 |
+| Health          |              1634 |
+| Business        |              1657 |
+| Science         |              1629 |
+| Arts            |              1570 |
++-----------------+-------------------+
+5 rows in set (0.03 sec)
+
+⦁	Task 2 : Identify students with highest course completion rates
+
+mysql> SELECT
+    ->     Student_ID,
+    ->     Completion_Rate
+    -> FROM online_education_dataset_final
+    -> ORDER BY Completion_Rate DESC
+    -> LIMIT 10;
++------------+-----------------+
+| Student_ID | Completion_Rate |
++------------+-----------------+
+|        868 |              88 |
+|       7063 |           86.81 |
+|       8306 |            86.7 |
+|       6324 |           86.42 |
+|       5258 |           86.31 |
+|       4244 |           86.31 |
+|       2484 |           86.27 |
+|       1239 |           86.04 |
+|       4489 |           85.93 |
+|       1870 |           85.82 |
++------------+-----------------+
+10 rows in set (0.01 sec)
+
+⦁	Task 3 : Calculate average time spent per student Rank
+
+mysql> SELECT
+    ->   Student_ID,
+    -> AVG(Time_Spent_Hours) AS avg_time_spent
+    -> FROM online_education_dataset_final
+    -> GROUP BY Student_ID;
+
+8123 rows in set (0.03 sec)
+
+⦁	Task 4 : courses by student engagement
+
+mysql> SELECT
+    ->     Course_Category,
+    ->     AVG(Engagement_Index) AS avg_engagement
+    -> FROM online_education_dataset_final
+    -> GROUP BY Course_Category
+    -> ORDER BY avg_engagement DESC;
++-----------------+-------------------+
+| Course_Category | avg_engagement    |
++-----------------+-------------------+
+| Programming     | 46.39593349266695 |
+| Health          | 45.97105430287276 |
+| Business        | 45.69860623957669 |
+| Arts            | 45.51332086104496 |
+| Science         |  45.3397926280219 |
++-----------------+-------------------+
+5 rows in set (0.04 sec)
+
+⦁	Task 5 : Identify students who drop out before completion
+
+mysql> SELECT
+    ->     Student_ID,
+    ->     Course_Category,
+    ->     Course_Completion
+    -> FROM online_education_dataset_final
+    -> WHERE Course_Completion <> 'Completed';
++------------+-----------------+-------------------+
+| Student_ID | Course_Category | Course_Completion |
++------------+-----------------+-------------------+
+|       7050 | Programming     | Not Completed     |
+|       8491 | Programming     | Not Completed     |
+|        967 | Programming     | Not Completed     |
+|       5682 | Programming     | Not Completed     |
+|       8364 | Science         | Not Completed     |
++------------+-----------------+-------------------+
+7845 rows in set (0.03 sec)
+
+⦁	Task 6 : Count assignments submitted versus missed per course
+
+mysql> SELECT
+    ->     Course_Category,
+    ->     Engagement_Level,
+    ->     COUNT(*) AS student_count
+    -> FROM online_education_dataset_final
+    -> GROUP BY Course_Category, Engagement_Level
+    -> ORDER BY Course_Category;
++-----------------+------------------+---------------+
+| Course_Category | Engagement_Level | student_count |
++-----------------+------------------+---------------+
+| Arts            | High             |            15 |
+| Arts            | Low              |           611 |
+| Arts            | Medium           |           944 |
+| Business        | High             |            21 |
+| Business        | Low              |           652 |
+| Business        | Medium           |           984 |
+| Health          | High             |            16 |
+| Health          | Low              |           624 |
+| Health          | Medium           |           994 |
+| Programming     | High             |            18 |
+| Programming     | Low              |           602 |
+| Programming     | Medium           |          1013 |
+| Science         | High             |            19 |
+| Science         | Low              |           656 |
+| Science         | Medium           |           954 |
++-----------------+------------------+---------------+
+15 rows in set (0.03 sec)
+
+⦁	Task 7 : Identify courses with highest satisfaction ratings
+
+Not performed because satisfaction rating data is not available in the dataset.
+mysql> SELECT
+    ->     Course_Category,
+    ->     AVG(Engagement_Index) AS assumed_satisfaction
+    -> FROM online_education_dataset_final
+    -> GROUP BY Course_Category
+    -> ORDER BY assumed_satisfaction DESC;
++-----------------+----------------------+
+| Course_Category | assumed_satisfaction |
++-----------------+----------------------+
+| Programming     |    46.39593349266695 |
+| Health          |    45.97105430287276 |
+| Business        |    45.69860623957669 |
+| Arts            |    45.51332086104496 |
+| Science         |     45.3397926280219 |
++-----------------+----------------------+
+5 rows in set (0.04 sec)
+
