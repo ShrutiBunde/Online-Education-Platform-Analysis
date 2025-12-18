@@ -30,6 +30,7 @@ on an online education platform using SQL, Pandas, and Power BI.
 - Dropout identification
 - Course ranking based on engagement
 
-## Notes
+## Note
 Some tasks such as satisfaction ratings and assignment submission analysis
 were not performed due to unavailability of relevant data columns in the dataset.
+
